@@ -1,1 +1,19 @@
-spring.application.name=rest-with-spring-boot-and-java-2025
+spring:
+  application:
+    name: rest-with-spring-boot-and-java-2025
+  datasource:
+    url: jdbc:postgresql://localhost:5432/erudio_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    open-in-view: false
+logging:
+  level:
+    br.com.erudio: debug
+    #root: warn
+
+
