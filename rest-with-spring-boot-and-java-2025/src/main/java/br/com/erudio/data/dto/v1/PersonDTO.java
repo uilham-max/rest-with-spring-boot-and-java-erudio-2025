@@ -5,44 +5,21 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@JsonPropertyOrder({"id", "first_name", "   last_name", "gender", "address"})
-//@JsonFilter("PersonFilter")
-//@JacksonXmlRootElement(localName = "Person")
-public class PersonDTO implements Serializable {
+public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("id")
     private Long id;
-
-//    @JsonProperty("sensitive_data")
-//    private String sensitiveData;
-
-    @JsonProperty("first_name")
     private String firstName;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("last_name")
     private String lastName;
-
-//    @JsonIgnore
     private String address;
-
-    @JsonProperty("phone_number")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String phoneNumber;
-
-    @JsonSerialize(using = GenderSerializer.class)
     private String gender;
-
-//    @JsonProperty("birth_day")
-//    @JsonFormat(pattern = "dd/MM/yyyy")
-//    private Date birthday;
 
 
     public Long getId() {
