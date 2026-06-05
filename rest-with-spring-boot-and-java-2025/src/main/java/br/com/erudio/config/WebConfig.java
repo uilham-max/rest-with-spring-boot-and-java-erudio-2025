@@ -5,24 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * Classe de configuração responsável por customizar
- * a negociação de conteúdo (Content Negotiation)
- * da aplicação Spring MVC.
- *
- * Content Negotiation é o mecanismo que permite
- * ao cliente escolher o formato da resposta da API,
- * como JSON ou XML.
- *
- * Exemplo:
- *
- * JSON:
- * http://localhost:8080/api/person/v1/1?mediaType=json
- *
- * XML:
- * http://localhost:8080/api/person/v1/1?mediaType=xml
- */
-
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
