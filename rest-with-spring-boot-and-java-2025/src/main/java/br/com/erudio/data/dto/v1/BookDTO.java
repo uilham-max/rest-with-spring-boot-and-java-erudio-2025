@@ -1,12 +1,13 @@
 package br.com.erudio.data.dto.v1;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class BooksDTO {
+public class BookDTO extends RepresentationModel<BookDTO> {
 
     private Long id;
     private String title;
@@ -16,9 +17,9 @@ public class BooksDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Timestamp launchDate;
 
-    public BooksDTO() {}
+    public BookDTO() {}
 
-    public BooksDTO(Long id, String title, String author, BigDecimal price, Timestamp launchDate) {
+    public BookDTO(Long id, String title, String author, BigDecimal price, Timestamp launchDate) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -69,8 +70,8 @@ public class BooksDTO {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        BooksDTO booksDTO = (BooksDTO) o;
-        return Objects.equals(id, booksDTO.id) && Objects.equals(title, booksDTO.title) && Objects.equals(author, booksDTO.author) && Objects.equals(price, booksDTO.price) && Objects.equals(launchDate, booksDTO.launchDate);
+        BookDTO bookDTO = (BookDTO) o;
+        return Objects.equals(id, bookDTO.id) && Objects.equals(title, bookDTO.title) && Objects.equals(author, bookDTO.author) && Objects.equals(price, bookDTO.price) && Objects.equals(launchDate, bookDTO.launchDate);
     }
 
     @Override

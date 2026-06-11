@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "books")
-public class Books implements Serializable {
+public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,9 +31,9 @@ public class Books implements Serializable {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    public Books() {}
+    public Book() {}
 
-    public Books(Long id, String title, String author, Timestamp launchDate, BigDecimal price) {
+    public Book(Long id, String title, String author, Timestamp launchDate, BigDecimal price) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -84,7 +84,7 @@ public class Books implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Books books = (Books) o;
+        Book books = (Book) o;
         return Objects.equals(id, books.id) && Objects.equals(title, books.title) && Objects.equals(author, books.author) && Objects.equals(launchDate, books.launchDate) && Objects.equals(price, books.price);
     }
 
