@@ -2,7 +2,7 @@ package br.com.erudio.controllers;
 
 import br.com.erudio.controllers.docs.PersonControllerDocs;
 import br.com.erudio.data.dto.v1.PersonDTO;
-import br.com.erudio.services.impl.PersonServiceImpl;
+import br.com.erudio.unittests.services.impl.PersonServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

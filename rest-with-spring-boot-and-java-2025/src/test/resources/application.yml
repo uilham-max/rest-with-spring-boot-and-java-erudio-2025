@@ -1,1 +1,22 @@
-spring.application.name=rest-with-spring-boot-and-java-2025
+server:
+    port: 8888
+spring:
+  application:
+    name: rest-with-spring-boot-and-java-2025
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    open-in-view: false
+logging:
+  level:
+    br.com.erudio: debug
+    #root: warn
+spring-doc:
+  paths-to-match: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
+
+
