@@ -1,3 +1,5 @@
+cors:
+  originPatterns: http://localhost:3000,http://localhost:8080,https://www.erudio.com.br
 spring:
   application:
     name: rest-with-spring-boot-and-java-2025
@@ -13,8 +15,8 @@ spring:
     open-in-view: false
 logging:
   level:
-    br.com.erudio: debug
-    #root: warn
+    root: INFO
+#    br.com.erudio: DEBUG
 spring-doc:
   paths-to-match: /api/**/v1/**
   swagger-ui:
