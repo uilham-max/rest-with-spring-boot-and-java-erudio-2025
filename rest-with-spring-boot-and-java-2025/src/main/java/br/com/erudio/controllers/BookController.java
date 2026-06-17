@@ -2,7 +2,7 @@ package br.com.erudio.controllers;
 
 import br.com.erudio.controllers.docs.BookControllerDocs;
 import br.com.erudio.data.dto.v1.BookDTO;
-import br.com.erudio.unittests.services.impl.BookServiceImpl;
+import br.com.erudio.services.impl.BookServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
