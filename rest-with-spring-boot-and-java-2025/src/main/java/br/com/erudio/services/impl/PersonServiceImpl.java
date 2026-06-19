@@ -8,6 +8,7 @@ import br.com.erudio.mapper.ObjectMapper;
 import br.com.erudio.model.Person;
 import br.com.erudio.repository.PersonRepository;
 import br.com.erudio.services.PersonService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -73,12 +74,26 @@ public class PersonServiceImpl implements PersonService {
         personRepository.delete( entity );
     }
 
+    @Transactional
+    @Override
+    public PersonDTO disablePerson(Long id) {
+        logger.info( "Disabling Person with id {}", id );
+        personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found with this ID: " + id));
+        personRepository.disablePerson(id);
+        Person entity = personRepository.findById(id).get();
+        var dto = ObjectMapper.parseObject(entity, PersonDTO.class);
+        addHateoasLinks(dto);
+        return dto;
+    }
+
     public void addHateoasLinks(PersonDTO dto) {
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
         dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disable").withType("PATCH"));
 
     }
 

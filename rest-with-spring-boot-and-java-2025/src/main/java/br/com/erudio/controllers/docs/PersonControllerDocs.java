@@ -53,7 +53,7 @@ public interface PersonControllerDocs {
             })
     List<PersonDTO> findAll();
 
-    @Operation(summary = "Finds a People",
+    @Operation(summary = "Finds a Person",
             description = "Find a specific person by your ID",
             tags = {"People"},
             responses = {
@@ -69,6 +69,24 @@ public interface PersonControllerDocs {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
             })
     PersonDTO findById(@PathVariable("id") Long id);
+
+    @Operation(summary = "Disable a People",
+            description = "Disable a specific person by your ID",
+            tags = {"People"},
+            responses = {
+                    @ApiResponse(
+                            description = "Sucess",
+                            responseCode = "200",
+                            content = {@Content(schema = @Schema(implementation = PersonDTO.class))}
+                    ),
+                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
+            })
+    ResponseEntity<PersonDTO> disablePerson(@PathVariable("id") Long id);
+
 
     @Operation(summary = "Update a Person",
             description = "Update a specific person by your ID",

@@ -14,6 +14,15 @@ public class PersonDTOV2 implements Serializable {
     private Date birthDate;
     private String address;
     private String gender;
+    private Boolean enabled;
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public PersonDTOV2() {}
 

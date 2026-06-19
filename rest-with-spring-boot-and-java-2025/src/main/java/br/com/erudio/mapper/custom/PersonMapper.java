@@ -25,7 +25,8 @@ public class PersonMapper {
                 personDTOV2.getFirstName(),
                 personDTOV2.getLastName(),
                 personDTOV2.getAddress(),
-                personDTOV2.getGender()
+                personDTOV2.getGender(),
+                personDTOV2.getEnabled()
 //                personDTOV2.getBirthDate()
         );
 

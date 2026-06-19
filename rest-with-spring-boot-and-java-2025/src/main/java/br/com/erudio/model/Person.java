@@ -28,25 +28,17 @@ public class Person implements Serializable {
     @Column(nullable = false, length = 10)
     private String gender;
 
-//    @Column(name = "birth_date", nullable = true)
-//    private Date birthDate;
+    @Column(nullable = false)
+    private Boolean enabled;
 
-    public Person(Long id, String firstName, String lastName, String address, String gender) {
+    public Person(Long id, String firstName, String lastName, String address, String gender, Boolean enabled) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
-//        this.birthDate = birthDate;
+        this.enabled = enabled;
     }
-
-//    public Date getBirthDate() {
-//        return birthDate;
-//    }
-//
-//    public void setBirthDate(Date birthDate) {
-//        this.birthDate = birthDate;
-//    }
 
     public String getGender() {
         return gender;
@@ -90,25 +82,23 @@ public class Person implements Serializable {
         this.address = address;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Person person)) return false;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(enabled, person.enabled);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender);
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", gender='" + gender + '\'' +
-                '}';
+        return Objects.hash(id, firstName, lastName, address, gender, enabled);
     }
 }

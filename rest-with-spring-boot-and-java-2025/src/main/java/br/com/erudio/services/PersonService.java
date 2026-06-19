@@ -19,4 +19,6 @@ public interface PersonService {
 
     PersonDTO findById(Long id);
 
+    PersonDTO disablePerson(Long id);
+
 }
