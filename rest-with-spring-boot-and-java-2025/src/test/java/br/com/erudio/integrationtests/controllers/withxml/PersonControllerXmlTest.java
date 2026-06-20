@@ -182,34 +182,33 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
                     .statusCode(200)
                 .extract().body().asString();
 
-        List<PersonDTO> people = xmlMapper.readValue(content, new TypeReference<List<PersonDTO>>() {});
+        List<PersonDTO> people = xmlMapper.readValue(content, new TypeReference<>() {});
 
         PersonDTO personFive = people.get(5);
 
         assertNotNull(personFive.getId());
         assertTrue(personFive.getId() > 0);
 
-        assertEquals("Marie", personFive.getFirstName());
-        assertEquals("Jane", personFive.getLastName());
-        assertEquals("Wall Street, 1000", personFive.getAddress());
-        assertEquals("female", personFive.getGender());
+        assertEquals("Nelson", personFive.getFirstName());
+        assertEquals("Mandela", personFive.getLastName());
+        assertEquals("Mvezo - South Africa", personFive.getAddress());
+        assertEquals("Male", personFive.getGender());
         assertTrue(personFive.getEnabled());
 
-        PersonDTO personOne = people.get(0);
+        PersonDTO personOne = people.getFirst();
 
         assertNotNull(personOne.getId());
         assertTrue(personOne.getId() > 0);
 
-        assertEquals("Marie", personOne.getFirstName());
-        assertEquals("Jane", personOne.getLastName());
-        assertEquals("Wall Street, 1000", personOne.getAddress());
-        assertEquals("female", personOne.getGender());
+        assertEquals("Ayrton", personOne.getFirstName());
+        assertEquals("Senna", personOne.getLastName());
+        assertEquals("São Paulo - Brasil", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
         assertTrue(personOne.getEnabled());
 
     }
 
     public void mockPerson() {
-        person.setId(1L);
         person.setFirstName("Linus");
         person.setLastName("Torvalds");
         person.setAddress("Helsinki - Finland");
