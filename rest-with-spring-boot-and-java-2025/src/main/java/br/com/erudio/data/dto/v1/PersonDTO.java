@@ -1,16 +1,12 @@
 package br.com.erudio.data.dto.v1;
 
-import br.com.erudio.serializer.GenderSerializer;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 
+@Relation(collectionRelation = "people")
 public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -2,6 +2,10 @@ package br.com.erudio.services;
 
 import br.com.erudio.data.dto.v1.PersonDTO;
 import br.com.erudio.data.dto.v2.PersonDTOV2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.List;
 
@@ -15,7 +19,7 @@ public interface PersonService {
 
     void delete(Long id);
 
-    List<PersonDTO> findAll();
+    PagedModel<EntityModel<PersonDTO>> findAll(Pageable pageable);
 
     PersonDTO findById(Long id);
 
