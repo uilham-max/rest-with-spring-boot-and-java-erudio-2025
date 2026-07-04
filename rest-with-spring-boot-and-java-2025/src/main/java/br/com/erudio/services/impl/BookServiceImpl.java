@@ -2,6 +2,7 @@ package br.com.erudio.services.impl;
 
 import br.com.erudio.controllers.BookController;
 import br.com.erudio.data.dto.v1.BookDTO;
+import br.com.erudio.data.dto.v1.PersonDTO;
 import br.com.erudio.exception.RequiredObjectIsNullException;
 import br.com.erudio.exception.ResourceNotFoundException;
 import br.com.erudio.mapper.ObjectMapper;
@@ -10,6 +11,13 @@ import br.com.erudio.repository.BookRepository;
 import br.com.erudio.services.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +32,11 @@ public class BookServiceImpl implements BookService {
 
     BookRepository bookRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    PagedResourcesAssembler<BookDTO> assembler;
+
+    public BookServiceImpl(BookRepository bookRepository, PagedResourcesAssembler<BookDTO> assembler) {
         this.bookRepository = bookRepository;
+        this.assembler = assembler;
     }
 
     @Override
@@ -39,12 +50,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDTO> findAll() {
+    public PagedModel<EntityModel<BookDTO>> findAll(Pageable pageable) {
         logger.info("Find all books");
-        List<Book> books = bookRepository.findAll();
-        var booksDTOs = ObjectMapper.parseListObjects(books, BookDTO.class);
-        booksDTOs.forEach(this::addHateoasLinks);
-        return booksDTOs;
+        Page<Book> books = bookRepository.findAll(pageable);
+        var booksWithLinks = books.map(book -> {
+            var dto = ObjectMapper.parseObject(book, BookDTO.class);
+            addHateoasLinks(dto);
+            return dto;
+        });
+        Link findAllLinks = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(BookController.class).findAll(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    String.valueOf(pageable.getSort())
+        )).withSelfRel();
+        return assembler.toModel(booksWithLinks, findAllLinks);
     }
 
     @Override
@@ -84,7 +104,7 @@ public class BookServiceImpl implements BookService {
     public void addHateoasLinks(BookDTO dto) {
         dto.add(linkTo(methodOn(BookController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(BookController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
-        dto.add(linkTo(methodOn(BookController.class).findAll()).withRel("findAll").withType("GET"));
+        dto.add(linkTo(methodOn(BookController.class).findAll(0, 12, "asc")).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(BookController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(BookController.class).update(dto)).withRel("update").withType("PUT"));
 

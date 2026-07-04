@@ -2,11 +2,13 @@ package br.com.erudio.data.dto.v1;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Relation(collectionRelation = "books")
 public class BookDTO extends RepresentationModel<BookDTO> {
 
     private Long id;

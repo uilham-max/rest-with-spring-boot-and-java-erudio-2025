@@ -3,6 +3,12 @@ package br.com.erudio.controllers;
 import br.com.erudio.controllers.docs.BookControllerDocs;
 import br.com.erudio.data.dto.v1.BookDTO;
 import br.com.erudio.services.impl.BookServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +40,14 @@ public class BookController implements BookControllerDocs {
     @GetMapping(
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE }
     )
-    public List<BookDTO> findAll() {
-        return bookService.findAll();
+    public ResponseEntity<PagedModel<EntityModel<BookDTO>>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction
+    ) {
+        var sortDirection = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title", "author"));
+        return ResponseEntity.ok(bookService.findAll(pageable));
     }
 
     @GetMapping(value = "{id}",
