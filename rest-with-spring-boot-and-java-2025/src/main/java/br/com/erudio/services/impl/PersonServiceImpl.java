@@ -55,7 +55,21 @@ public class PersonServiceImpl implements PersonService {
         });
         Link findAllLink = WebMvcLinkBuilder.linkTo(
                 WebMvcLinkBuilder.methodOn(PersonController.class)
-                        .findAll(pageable.getPageNumber(), pageable.getPageNumber(), String.valueOf(pageable.getSort()))).withSelfRel();
+                        .findAll(pageable.getPageNumber(), pageable.getPageSize(), String.valueOf(pageable.getSort()))).withSelfRel();
+        return assembler.toModel(peopleWithLinks, findAllLink);
+    }
+
+    public PagedModel<EntityModel<PersonDTO>> findByName(String firstName, Pageable pageable) {
+        logger.info("Find people by name: {}", firstName);
+        var people = personRepository.findPersonByFirstName(firstName, pageable);
+        var peopleWithLinks = people.map(person -> {
+            var dto = ObjectMapper.parseObject(person, PersonDTO.class);
+            addHateoasLinks(dto);
+            return dto;
+        });
+        Link findAllLink = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(PersonController.class)
+                        .findAll(pageable.getPageNumber(), pageable.getPageSize(), String.valueOf(pageable.getSort()))).withSelfRel();
         return assembler.toModel(peopleWithLinks, findAllLink);
     }
 
