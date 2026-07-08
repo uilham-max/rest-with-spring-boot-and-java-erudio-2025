@@ -27,9 +27,9 @@ public class PersonServiceImpl implements PersonService {
 
     private static final Logger logger = LoggerFactory.getLogger( PersonServiceImpl.class.getName() );
 
-    private final PersonRepository personRepository;
+    private PersonRepository personRepository;
 
-    private final PagedResourcesAssembler<PersonDTO> assembler;
+    private PagedResourcesAssembler<PersonDTO> assembler;
 
     public PersonServiceImpl(PersonRepository personRepository, PagedResourcesAssembler<PersonDTO> assembler) {
         this.personRepository = personRepository;

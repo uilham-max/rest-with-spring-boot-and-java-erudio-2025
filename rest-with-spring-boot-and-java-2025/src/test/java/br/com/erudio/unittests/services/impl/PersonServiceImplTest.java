@@ -33,7 +33,7 @@ class PersonServiceImplTest {
     private PersonServiceImpl personService;
 
     @Mock
-    PersonRepository personRepository;
+    private PersonRepository personRepository;
 
     @BeforeEach
     void setUp() {

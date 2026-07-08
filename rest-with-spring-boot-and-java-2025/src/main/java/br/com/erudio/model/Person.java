@@ -102,15 +102,4 @@ public class Person implements Serializable {
         return Objects.hash(id, firstName, lastName, address, gender, enabled);
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", gender='" + gender + '\'' +
-                ", enabled=" + enabled +
-                '}';
-    }
 }

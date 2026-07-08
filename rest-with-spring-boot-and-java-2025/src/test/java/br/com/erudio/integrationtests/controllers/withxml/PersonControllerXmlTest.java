@@ -2,6 +2,7 @@ package br.com.erudio.integrationtests.controllers.withxml;
 
 import br.com.erudio.config.TestConfigs;
 import br.com.erudio.integrationtests.dto.PersonDTO;
+import br.com.erudio.integrationtests.dto.wrappers.xml.PagedModelPerson;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -176,34 +177,36 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
 
         var content = given(especification)
                 .accept(MediaType.APPLICATION_XML_VALUE)
+                .queryParams("page", 0, "size", "12", "direction", "asc")
                 .when()
                     .get()
                 .then()
                     .statusCode(200)
                 .extract().body().asString();
 
-        List<PersonDTO> people = xmlMapper.readValue(content, new TypeReference<>() {});
+        PagedModelPerson wrapper = xmlMapper.readValue(content, PagedModelPerson.class);
+        List<PersonDTO> people = wrapper.getContent();
 
         PersonDTO personFive = people.get(5);
 
         assertNotNull(personFive.getId());
         assertTrue(personFive.getId() > 0);
 
-        assertEquals("Nelson", personFive.getFirstName());
-        assertEquals("Mandela", personFive.getLastName());
-        assertEquals("Mvezo - South Africa", personFive.getAddress());
-        assertEquals("Male", personFive.getGender());
-        assertTrue(personFive.getEnabled());
+        assertEquals("Addia", personFive.getFirstName());
+        assertEquals("Marklund", personFive.getLastName());
+        assertEquals("0212 Arkansas Way", personFive.getAddress());
+        assertEquals("Female", personFive.getGender());
+        assertFalse(personFive.getEnabled());
 
-        PersonDTO personOne = people.getFirst();
+        PersonDTO personOne = people.get(0);
 
         assertNotNull(personOne.getId());
         assertTrue(personOne.getId() > 0);
 
-        assertEquals("Ayrton", personOne.getFirstName());
-        assertEquals("Senna", personOne.getLastName());
-        assertEquals("São Paulo - Brasil", personOne.getAddress());
-        assertEquals("Male", personOne.getGender());
+        assertEquals("Abagail", personOne.getFirstName());
+        assertEquals("Sessions", personOne.getLastName());
+        assertEquals("4486 Warrior Center", personOne.getAddress());
+        assertEquals("Female", personOne.getGender());
         assertTrue(personOne.getEnabled());
 
     }
