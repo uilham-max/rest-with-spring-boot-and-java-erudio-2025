@@ -34,7 +34,7 @@ public class BookController implements BookControllerDocs {
     )
     public ResponseEntity<BookDTO> create(@RequestBody BookDTO bookDTO) {
         var bookSavedDTO = bookService.create(bookDTO);
-        return new ResponseEntity<>(bookSavedDTO,HttpStatus.CREATED);
+        return ResponseEntity.ok(bookSavedDTO);
     }
 
     @GetMapping(

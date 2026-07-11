@@ -1,15 +1,19 @@
-package br.com.erudio.data.dto.v1;
+package br.com.erudio.integrationtests.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-@Relation(collectionRelation = "books")
-public class BookDTO extends RepresentationModel<BookDTO> {
+@XmlRootElement
+public class BookDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String title;
@@ -22,16 +26,6 @@ public class BookDTO extends RepresentationModel<BookDTO> {
             timezone = "America/Sao_Paulo"
     )
     private Timestamp launchDate;
-
-    public BookDTO() {}
-
-    public BookDTO(Long id, String title, String author, BigDecimal price, Timestamp launchDate) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.price = price;
-        this.launchDate = launchDate;
-    }
 
     public Long getId() {
         return id;
