@@ -70,7 +70,7 @@ public class BookController implements BookControllerDocs {
     @DeleteMapping("{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
         bookService.delete(id);
-        return ResponseEntity.ok("Deleted");
+        return ResponseEntity.noContent().build();
     }
 
 }
