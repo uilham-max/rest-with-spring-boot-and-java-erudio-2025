@@ -222,6 +222,33 @@ class PersonControllerYamlTest extends AbstractIntegrationTest {
 
     }
 
+    void findByNameTest() throws JsonProcessingException {
+
+        var content = given(especification)
+            .accept(MediaType.APPLICATION_YAML_VALUE)
+            .pathParam("firstName", "and")
+            .when()
+                .get("findPeopleByName{firstName}")
+            .then()
+                .statusCode(200)
+            .extract().body().asString();
+
+        PagedModelPerson wrapper = yamlMapper.readValue(content, PagedModelPerson.class);
+        List<PersonDTO> people = wrapper.getContent();
+
+        PersonDTO personOne = people.get(0);
+
+        assertNotNull(personOne.getId());
+        assertTrue(personOne.getId() > 0);
+
+        assertEquals("Cleavland", personOne.getFirstName());
+        assertEquals("Noar", personOne.getLastName());
+        assertEquals("8741 Pennsylvania Junction", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
+        assertTrue(personOne.getEnabled());
+
+    }
+
     public void mockPerson() {
         person.setFirstName("Linus");
         person.setLastName("Torvalds");

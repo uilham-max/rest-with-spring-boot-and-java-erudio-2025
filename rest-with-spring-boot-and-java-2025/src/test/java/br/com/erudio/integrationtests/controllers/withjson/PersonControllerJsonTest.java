@@ -212,6 +212,40 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
 
     }
 
+
+    @Test
+    @Order(3)
+    void findByNameTest() throws JsonProcessingException {
+
+        // {{baseUrl}}/api/person/v1/findPeopleByName/:firstName?page=2&size=3&direction=asc
+        var content = given(especification)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .pathParam("firstName", "and")
+            .queryParams("page", 0, "size", "12", "direction", "asc")
+            .when()
+                .get("findPeopleByName/{firstName}")
+            .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .extract().body().asString();
+
+        WrapperPersonDTO wrapper = objectMapper.readValue(content, WrapperPersonDTO.class);
+        List<PersonDTO> people = wrapper.getEmbedded().getPeople();
+
+        PersonDTO personOne = people.get(0);
+
+        assertNotNull(personOne.getId());
+        assertTrue(personOne.getId() > 0);
+
+        assertEquals("Cleavland", personOne.getFirstName());
+        assertEquals("Noar", personOne.getLastName());
+        assertEquals("8741 Pennsylvania Junction", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
+        assertTrue(personOne.getEnabled());
+
+    }
+
+
     public void mockPerson() {
         person.setFirstName("Linus");
         person.setLastName("Torvalds");

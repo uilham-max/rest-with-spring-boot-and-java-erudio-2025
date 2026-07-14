@@ -211,6 +211,38 @@ class PersonControllerXmlTest extends AbstractIntegrationTest {
 
     }
 
+
+
+    @Test
+    @Order(7)
+    void findByNameTest() throws JsonProcessingException {
+
+        var content = given(especification)
+                .accept(MediaType.APPLICATION_XML_VALUE)
+                .pathParam("findName", "and")
+                .queryParams("page", 0, "size", "12", "direction", "asc")
+                .when()
+                    .get("findPeopleByName/{findName}")
+                .then()
+                    .statusCode(200)
+                .extract().body().asString();
+
+        PagedModelPerson wrapper = xmlMapper.readValue(content, PagedModelPerson.class);
+        List<PersonDTO> people = wrapper.getContent();
+
+        PersonDTO personOne = people.get(0);
+
+        assertNotNull(personOne.getId());
+        assertTrue(personOne.getId() > 0);
+
+        assertEquals("Cleavland", personOne.getFirstName());
+        assertEquals("Noar", personOne.getLastName());
+        assertEquals("8741 Pennsylvania Junction", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
+        assertTrue(personOne.getEnabled());
+
+    }
+
     public void mockPerson() {
         person.setFirstName("Linus");
         person.setLastName("Torvalds");
